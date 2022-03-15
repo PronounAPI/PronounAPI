@@ -2,7 +2,6 @@ vscode:
   extensions:
     - arcanis.vscode-zipfs
     - dbaeumer.vscode-eslint
-    - lokalise.i18n-ally
     - esbenp.prettier-vscode
 github:
   prebuilds:
@@ -17,6 +16,6 @@ tasks:
       export GPG_TTY=$(tty) &&
       sudo chmod 666 $(tty) &&
       cd $GITPOD_REPO_ROOT
-    init: yarn
+    init: corpack enable && corepack prepare && yarn
 image:
   file: .gitpod.dockerfile

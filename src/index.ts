@@ -188,6 +188,7 @@ interface UserResponse {
             userId: req.query.id,
             platform: req.query.platform,
             preferredPronoun: pronounDetails,
+            extraPronouns: [],
             pronoundbCompat: true
         })
     })

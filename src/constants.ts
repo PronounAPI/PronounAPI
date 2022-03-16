@@ -3,136 +3,158 @@
  * @author Lisenaaaa
  * @see https://github.com/Lisenaaaa/Rain/blob/9ffc3ef64cb5fcd89227244cd623255b3ba85eb2/src/functions/objectfunctions/users.ts#L15-L106
  */
-export const pronoundbmap = {
+export const pronounMap = {
     "unspecified": {
+        "pronoundb": "unspecified",
         "pronoun": "Unspecified",
-        "describe": "this person",
+        "description": "this person",
         "singular": "this person",
         "ownership": "this person's"
     },
-    "hh": {
+    "heHim": {
+        "pronoundb": "hh",
         "pronoun": "he/him",
-        "describe": "him",
+        "description": "him",
         "singular": "he",
         "ownership": "his"
     },
-    "hi": {
+    "heIt": {
+        "pronoundb": "hi",
         "pronoun": "he/it",
-        "describe": "him",
+        "description": "him",
         "singular": "he",
         "ownership": "his"
     },
-    "hs": {
+    "heShe": {
+        "pronoundb": "hs",
         "pronoun": "he/she",
-        "describe": "him",
+        "description": "him",
         "singular": "he",
         "ownership": "his"
     },
-    "ht": {
+    "heThey": {
+        "pronoundb": "ht",
         "pronoun": "he/they",
-        "describe": "him",
+        "description": "him",
         "singular": "he",
         "ownership": "his"
     },
-    "ih": {
-        "pronoun": "it/him",
-        "describe": "it",
+    "itHim": {
+        "pronoundb": "ih",
+        "pronoun": "it/he",
+        "description": "it",
         "singular": "it",
         "ownership": "its"
     },
-    "ii": {
+    "itIts": {
+        "pronoundb": "ii",
         "pronoun": "it/its",
-        "describe": "it",
+        "description": "it",
         "singular": "it",
         "ownership": "its"
     },
-    "is": {
+    "itShe": {
+        "pronoundb": "is",
         "pronoun": "it/she",
-        "describe": "it",
+        "description": "it",
         "singular": "it",
         "ownership": "its"
     },
-    "it": {
+    "itThey": {
+        "pronoundb": "it",
         "pronoun": "it/they",
-        "describe": "it",
+        "description": "it",
         "singular": "it",
         "ownership": "its"
     },
-    "shh": {
+    "sheHe": {
+        "pronoundb": "shh",
         "pronoun": "she/he",
-        "describe": "her",
+        "description": "her",
         "singular": "she",
         "ownership": "hers"
     },
-    "sh": {
+    "sheHer": {
+        "pronoundb": "sh",
         "pronoun": "she/her",
-        "describe": "her",
+        "description": "her",
         "singular": "she",
         "ownership": "hers"
     },
-    "si": {
+    "sheIt": {
+        "pronoundb": "si",
         "pronoun": "she/it",
-        "describe": "her",
+        "description": "her",
         "singular": "she",
         "ownership": "hers"
     },
-    "st": {
+    "sheThey": {
+        "pronoundb": "st",
         "pronoun": "she/they",
-        "describe": "her",
+        "description": "her",
         "singular": "she",
         "ownership": "hers"
     },
-    "th": {
+    "theyHe": {
+        "pronoundb": "th",
         "pronoun": "they/he",
-        "describe": "them",
+        "description": "them",
         "singular": "they",
         "ownership": "their"
     },
-    "ti": {
+    "theyIt": {
+        "pronoundb": "ti",
         "pronoun": "they/it",
-        "describe": "them",
+        "description": "them",
         "singular": "they",
         "ownership": "their"
     },
-    "ts": {
+    "theyShe": {
+        "pronoundb": "ts",
         "pronoun": "they/she",
-        "describe": "them",
+        "description": "them",
         "singular": "they",
         "ownership": "their"
     },
-    "tt": {
+    "theyThem": {
+        "pronoundb": "tt",
         "pronoun": "they/them",
-        "describe": "them",
+        "description": "them",
         "singular": "they",
         "ownership": "their"
     },
-    "any": {
+    "anyPronouns": {
+        "pronoundb": "any",
         "pronoun": "Any pronouns",
-        "describe": "them",
+        "description": "them",
         "singular": "they",
         "ownership": "their"
     },
-    "other": {
+    "otherPronouns": {
+        "pronoundb": "other",
         "pronoun": "Other pronouns",
-        "describe": "this person",
+        "description": "this person",
         "singular": "this person",
         "ownership": "this person's"
     },
-    "ask": {
+    "askPronouns": {
+        "pronoundb": "ask",
         "pronoun": "Ask me my pronouns",
-        "describe": "this person",
+        "description": "this person",
         "singular": "this person",
         "ownership": "this person's"
     },
-    "avoid": {
+    "avoidPronouns": {
+        "pronoundb": "avoid",
         "pronoun": "Avoid pronouns, use my name",
-        "describe": "{{name}}",
+        "description": "{{name}}",
         "singular": "{{name}}",
         "ownership": "{{name}}'s"
     }
 } as Record<string, {
+    pronoundb: string;
     pronoun: string;
-    describe: string;
+    description: string;
     singular: string;
     ownership: string;
 }>

@@ -1,0 +1,12 @@
+{
+    "id": "theyHe",
+    "pronoundb": "th",
+    "pronoun": "they/he",
+    "description": "them",
+    "singular": "they",
+    "ownership": "their",
+    "subpronouns": [
+        "theyThem",
+        "heHim"
+    ]
+}

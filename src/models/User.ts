@@ -1,11 +1,11 @@
 import { DataTypes, Model, Sequelize } from "sequelize";
-import { pronounMap } from "../constants";
 
 interface UserModelAttributes {
     id: number;
     preferredPronoun: string;
+    extraPronouns: string[];
     discord: string;
-    randomizedAny: boolean;
+    randomizedSubpronouns: boolean;
 }
 
 export class User extends Model<UserModelAttributes, Partial<UserModelAttributes>> {
@@ -14,7 +14,9 @@ export class User extends Model<UserModelAttributes, Partial<UserModelAttributes
 
     declare id: number;
     declare discord: string|null;
-    declare randomizedAny: boolean;
+    declare preferredPronoun: string;
+    declare extraPronouns: string[];
+    declare randomizedSubpronouns: boolean;
 
     static initModel(sequelize: Sequelize) {
         User.init({
@@ -28,10 +30,16 @@ export class User extends Model<UserModelAttributes, Partial<UserModelAttributes
                 type: DataTypes.STRING,
                 primaryKey: false,
                 allowNull: false,
-                defaultValue: 'unspecified',
-                validate: {
-                    isIn: [Object.keys(pronounMap)]
+                defaultValue: () => 'unspecified',
+                references: {
+                    model: 'Pronouns'
                 }
+            },
+            extraPronouns: {
+                type: DataTypes.ARRAY(DataTypes.STRING),
+                primaryKey: false,
+                allowNull: false,
+                defaultValue: []
             },
             discord: {
                 type: DataTypes.STRING,
@@ -39,7 +47,7 @@ export class User extends Model<UserModelAttributes, Partial<UserModelAttributes
                 allowNull: true,
                 unique: true
             },
-            randomizedAny: {
+            randomizedSubpronouns: {
                 type: DataTypes.BOOLEAN,
                 primaryKey: false,
                 allowNull: false,

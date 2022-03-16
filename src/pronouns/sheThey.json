@@ -1,0 +1,12 @@
+{
+    "id": "sheThey",
+    "pronoundb": "st",
+    "pronoun": "she/they",
+    "description": "her",
+    "singular": "she",
+    "ownership": "hers",
+    "subpronouns": [
+        "sheHer",
+        "theyThem"
+    ]
+}

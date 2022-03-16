@@ -1,0 +1,12 @@
+{
+    "id": "itHe",
+    "pronoundb": "ih",
+    "pronoun": "it/he",
+    "description": "it",
+    "singular": "it",
+    "ownership": "its",
+    "subpronouns": [
+        "itIts",
+        "heHim"
+    ]
+}

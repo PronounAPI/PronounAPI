@@ -392,7 +392,7 @@ interface UserResponse {
         if (usersUsingPronoun >= 1) {
             res.status(422).send({
                 error: 506,
-                message: 'You cannot delete this pronoun, as someone is currently it.'
+                message: 'You cannot delete this pronoun, as someone is currently using it.'
             })
             return
         }

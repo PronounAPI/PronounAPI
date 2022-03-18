@@ -1,4 +1,4 @@
-import express, { type Request } from 'express';
+import express from 'express';
 import got, { HTTPError } from 'got';
 import { s } from '@sapphire/shapeshift';
 import { Sequelize } from 'sequelize';
@@ -328,6 +328,18 @@ interface UserResponse {
             res.status(500).send({
                 error: 500,
                 message: 'Wtf'
+            })
+            return
+        }
+        const userCreatedPronouns = await Pronoun.count({
+            where: {
+                creatorId: user.id
+            }
+        })
+        if (userCreatedPronouns >= 10) {
+            res.status(422).send({
+                error: 507,
+                message: 'You can only create up to 10 custom pronouns per user.'
             })
             return
         }

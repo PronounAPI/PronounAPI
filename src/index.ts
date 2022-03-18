@@ -11,6 +11,7 @@ import { promises as fs } from 'fs'
 import path from 'path'
 import { Op } from 'sequelize';
 import bodyParser from 'body-parser';
+import { RateLimiterMemory, RateLimiterRes } from 'rate-limiter-flexible';
 
 interface PronounType {
     id: string;
@@ -263,6 +264,10 @@ interface UserResponse {
         })
     })
 
+    const rateLimiterPostPronoun = new RateLimiterMemory({
+        points: 3,
+        duration: 10
+    });
     app.post('/api/v1/pronoun', async (req, res) => {
         try {
             s.string.parse(req.headers.authorization)
@@ -294,6 +299,23 @@ interface UserResponse {
             res.status(401).send({
                 error: 401,
                 message: 'Invalid token'
+            })
+            return
+        }
+        try {
+            const rateLimitData = await rateLimiterPostPronoun.consume(verifiedJwt.payload.sub!)
+            res.header("X-RateLimit-Limit", '3')
+            res.header("X-RateLimit-Remaining", rateLimitData.remainingPoints.toString())
+            res.header("X-RateLimit-Reset", new Date(Date.now() + rateLimitData.msBeforeNext).getTime().toString())
+        } catch (e) {
+            const rateLimitData = e as RateLimiterRes
+            res.header("Retry-After", (rateLimitData.msBeforeNext / 1000).toString())
+            res.header("X-RateLimit-Limit", '3')
+            res.header("X-RateLimit-Remaining", rateLimitData.remainingPoints.toString())
+            res.header("X-RateLimit-Reset", new Date(Date.now() + rateLimitData.msBeforeNext).getTime().toString())
+            res.status(429).send({
+                error: 429,
+                message: 'Too many requests, you are being ratelimited'
             })
             return
         }

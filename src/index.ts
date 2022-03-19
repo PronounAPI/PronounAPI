@@ -1,5 +1,4 @@
 import { User } from './models/User';
-import { randomBytes } from 'crypto';
 import { Pronoun } from './models/Pronoun';
 import { promises as fs } from 'fs'
 import path from 'path'
@@ -22,33 +21,8 @@ export const sequelize = new Sequelize({
     ...config.database,
     logging: false
 });
-const HMACToken = randomBytes(512);
 
-interface PronounDBResponse {
-    pronouns: string
-}
-
-interface CodeGrantResponse {
-    access_token: string,
-    token_type: string,
-    expires_in: number,
-    refresh_token: string,
-    scope: string
-}
-
-interface UserResponse {
-    id: string,
-    username: string,
-    avatar: string,
-    discriminator: string,
-    public_flags: number,
-    flags: number,
-    banner: string|null,
-    banner_color: number|null,
-    accent_color: number|null,
-    locale: string,
-    mfa_enabled: boolean
-}
+export let defaultPronounsExport: PronounType[] = [];
 
 (async () => {
     await sequelize.authenticate()
@@ -61,6 +35,7 @@ interface UserResponse {
             path.join(__dirname, 'pronouns', f)
         ).then(i => i.default) as Promise<PronounType>)
     )
+    defaultPronounsExport = defaultPronouns
     const defaultPronounsDB = await Pronoun.findAll({
         where: {
             id: {
@@ -135,6 +110,20 @@ interface UserResponse {
                             items: {
                                 "$ref": "#/components/schemas/Pronoun"
                             }
+                        }
+                    }
+                },
+                BadRequest: {
+                    type: 'object',
+                    description: 'Invalid data was provided to the server',
+                    properties: {
+                        error: {
+                            type: 'string',
+                            description: 'The error code'
+                        },
+                        message: {
+                            type: 'string',
+                            description: 'The error message'
                         }
                     }
                 }

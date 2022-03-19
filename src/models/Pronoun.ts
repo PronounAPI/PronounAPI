@@ -16,7 +16,7 @@ interface PronounModelCreationAttributes {
     id?: string;
     creatorId: number|null;
     pronoun: string;
-    pronoundb?: string;
+    pronoundb?: string|null;
     singular: string;
     description: string;
     ownership: string;

@@ -4,5 +4,6 @@
     "pronoun": "Avoid pronouns, use my name",
     "description": "{{name}}",
     "singular": "{{name}}",
-    "ownership": "{{name}}'s"
+    "ownership": "{{name}}'s",
+    "subpronouns": []
 }

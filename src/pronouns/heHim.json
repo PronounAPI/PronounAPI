@@ -4,5 +4,6 @@
     "pronoun": "he/him",
     "description": "him",
     "singular": "he",
-    "ownership": "his"
+    "ownership": "his",
+    "subpronouns": []
 }

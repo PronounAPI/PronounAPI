@@ -4,5 +4,6 @@
     "pronoun": "Ask me my pronouns",
     "description": "this person",
     "singular": "this person",
-    "ownership": "this person's"
+    "ownership": "this person's",
+    "subpronouns": []
 }

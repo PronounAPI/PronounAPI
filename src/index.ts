@@ -5,15 +5,16 @@ import path from 'path'
 import { Sequelize, Op } from 'sequelize';
 import * as config from './config'
 import { RouteManager } from '@tyman/modulo';
+import cors from 'cors';
 
-interface PronounType {
+export interface PronounType {
     id: string;
-    pronoundb: string;
+    pronoundb: string|null;
     pronoun: string;
     singular: string;
     ownership: string;
     description: string;
-    subpronouns?: string[];
+    subpronouns: string[];
 }
 
 export const sequelize = new Sequelize({
@@ -21,8 +22,6 @@ export const sequelize = new Sequelize({
     ...config.database,
     logging: false
 });
-
-export let defaultPronounsExport: PronounType[] = [];
 
 (async () => {
     await sequelize.authenticate()
@@ -35,7 +34,6 @@ export let defaultPronounsExport: PronounType[] = [];
             path.join(__dirname, 'pronouns', f)
         ).then(i => i.default) as Promise<PronounType>)
     )
-    defaultPronounsExport = defaultPronouns
     const defaultPronounsDB = await Pronoun.findAll({
         where: {
             id: {
@@ -55,7 +53,7 @@ export let defaultPronounsExport: PronounType[] = [];
         creatorId: null
     })))
 
-    const routeManager = new RouteManager('routes', {
+    const routeManager = new RouteManager(path.join(__dirname, 'routes'), {
         openapi: '3.0.0',
         info: {
             title: 'Pronoundb-custom',
@@ -137,7 +135,7 @@ export let defaultPronounsExport: PronounType[] = [];
             }
         },
         paths: {}
-    })
+    }, [cors()])
     await routeManager.loadRoutes()
     await routeManager.serve(3000)
 })()

@@ -5,8 +5,7 @@ import { Op } from 'sequelize';
 import { Pronoun } from '../models/Pronoun';
 import { User } from '../models/User';
 import { s } from '@sapphire/shapeshift';
-import { defaultPronounsExport as defaultPronouns } from '../index';
-import { triggerAsyncId } from 'async_hooks';
+import { PronounType } from '../index';
 
 interface PronounDBResponse {
     pronouns: string
@@ -107,7 +106,7 @@ export default class LookupRoute extends Route {
             }).parse(req.query);
         } catch {
             res.status(422).send({
-                error: 500,
+                error: 1,
                 message: 'Please provide both a valid platform and id in url.'
             });
             return;
@@ -136,29 +135,33 @@ export default class LookupRoute extends Route {
             pronounData.description = randomizedPronoun.description
             pronounData.ownership = randomizedPronoun.ownership
         }
-        const extraPronouns = await Pronoun.findAll({
-            where: {
-                id: {
-                    [Op.or]: userModel.extraPronouns
+        let extraPronounData: PronounType[] = [];
+        console.log(userModel.extraPronouns)
+        if (userModel.extraPronouns.length >= 1) {
+            const extraPronouns = await Pronoun.findAll({
+                where: {
+                    id: {
+                        [Op.or]: userModel.extraPronouns
+                    }
                 }
-            }
-        })
-        const extraPronounData = extraPronouns.map(p => ({
-            id: p.id,
-            pronoundb: p.pronoundb,
-            pronoun: p.pronoun,
-            singular: p.singular,
-            description: p.description,
-            ownership: p.ownership,
-            subpronouns: p.subpronouns
-        }))
-        for (const [i, extraPronoun] of extraPronounData.entries()) {
-            if (extraPronoun.subpronouns.length >= 2 && userModel.randomizedSubpronouns) {
-                const randomizedPronoun = (await Pronoun.findByPk(extraPronoun.subpronouns[Math.floor(Math.random()*pronoun.subpronouns.length)]))!;
-                extraPronounData[i].pronoun = `${randomizedPronoun.pronoun} (${extraPronoun.pronoun})`   
-                extraPronounData[i].singular = randomizedPronoun.singular
-                extraPronounData[i].description = randomizedPronoun.description
-                extraPronounData[i].ownership = randomizedPronoun.ownership
+            })
+            extraPronounData = extraPronouns.map(p => ({
+                id: p.id,
+                pronoundb: p.pronoundb,
+                pronoun: p.pronoun,
+                singular: p.singular,
+                description: p.description,
+                ownership: p.ownership,
+                subpronouns: p.subpronouns
+            }))
+            for (const [i, extraPronoun] of extraPronounData.entries()) {
+                if (extraPronoun.subpronouns.length >= 2 && userModel.randomizedSubpronouns) {
+                    const randomizedPronoun = (await Pronoun.findByPk(extraPronoun.subpronouns[Math.floor(Math.random()*pronoun.subpronouns.length)]))!;
+                    extraPronounData[i].pronoun = `${randomizedPronoun.pronoun} (${extraPronoun.pronoun})`   
+                    extraPronounData[i].singular = randomizedPronoun.singular
+                    extraPronounData[i].description = randomizedPronoun.description
+                    extraPronounData[i].ownership = randomizedPronoun.ownership
+                }
             }
         }
         
@@ -187,6 +190,11 @@ export default class LookupRoute extends Route {
             }
             throw e
         }
+        const defaultPronouns = await Pronoun.findAll({
+            where: {
+                creatorId: null
+            }
+        })
         const pronounDetails = defaultPronouns.find(p => p.pronoundb === pronoundbResponse.pronouns)!
         res.send({
             userId: req.query.id,

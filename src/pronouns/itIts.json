@@ -4,5 +4,6 @@
     "pronoun": "it/its",
     "description": "it",
     "singular": "it",
-    "ownership": "its"
+    "ownership": "its",
+    "subpronouns": []
 }

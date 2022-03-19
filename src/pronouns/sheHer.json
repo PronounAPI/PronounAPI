@@ -4,5 +4,6 @@
     "pronoun": "she/her",
     "description": "her",
     "singular": "she",
-    "ownership": "hers"
+    "ownership": "hers",
+    "subpronouns": []
 }

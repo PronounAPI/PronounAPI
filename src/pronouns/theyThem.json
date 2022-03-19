@@ -4,5 +4,6 @@
     "pronoun": "they/them",
     "description": "them",
     "singular": "they",
-    "ownership": "their"
+    "ownership": "their",
+    "subpronouns": []
 }

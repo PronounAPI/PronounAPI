@@ -89,14 +89,14 @@ interface UserResponse {
     }
 })
 export default class CallbackRoute extends Route {
-    private HMACToken = randomBytes(512);
+    public static HMACToken = randomBytes(512);
     
     async get(req: Request, res: Response) {
         try {
             s.string.parse(req.query.code)
         } catch {
             res.status(422).send({
-                error: 502,
+                error: 1,
                 message: 'Code was not provided, was this url redirected from discord?'
             })
             return
@@ -118,7 +118,7 @@ export default class CallbackRoute extends Route {
         } catch (e) {
             if (e instanceof HTTPError) {
                 res.status(500).send({
-                    error: 503,
+                    error: 2,
                     message: 'Discord returned a non 2xx status code, was the provided code valid?'
                 })
                 return
@@ -135,7 +135,7 @@ export default class CallbackRoute extends Route {
         } catch (e) {
             if (e instanceof HTTPError) {
                 res.status(500).send({
-                    error: 503,
+                    error: 2,
                     message: 'Discord returned a non 2xx status code, was the provided code valid?'
                 })
                 console.log(e.response.body)
@@ -145,6 +145,7 @@ export default class CallbackRoute extends Route {
         }
         const jwt = await new SignJWT({
             sub: userResponse.id,
+            platform: 'discord',
             tag: `${userResponse.username}#${userResponse.discriminator}`
         })
             .setProtectedHeader({
@@ -154,7 +155,7 @@ export default class CallbackRoute extends Route {
             .setIssuer('pronoundb-custom')
             .setIssuedAt()
             .setExpirationTime('2h')
-            .sign(this.HMACToken)
+            .sign(CallbackRoute.HMACToken)
         res.send({
             token: jwt
         })

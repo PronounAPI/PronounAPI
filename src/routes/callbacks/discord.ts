@@ -84,7 +84,8 @@ interface UserResponse {
                         }
                     }
                 }
-            }
+            },
+            tags: ['Oauth']
         }
     }
 })

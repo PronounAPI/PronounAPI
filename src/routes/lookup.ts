@@ -28,7 +28,7 @@ interface PronounDBResponse {
                 },
                 {
                     in: 'path',
-                    name: 'id',
+                    name: 'platform',
                     description: 'The platform of the user to lookup',
                     required: true,
                     schema: {
@@ -89,7 +89,8 @@ interface PronounDBResponse {
                         }
                     }
                 }
-            }
+            },
+            tags: ['Query']
         }
     }
 })

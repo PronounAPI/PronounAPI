@@ -78,7 +78,8 @@ import { HMACToken } from '../index';
                         }
                     }
                 }
-            }
+            },
+            tags: ['Pronouns']
         },
         delete: {
             description: 'Deletes an existing pronoun, can only be done by the person who created it',
@@ -160,7 +161,8 @@ import { HMACToken } from '../index';
                         }
                     }
                 }
-            }
+            },
+            tags: ['Pronouns']
         }
     }
 })

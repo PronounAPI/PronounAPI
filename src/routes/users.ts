@@ -49,7 +49,8 @@ import { HMACToken } from "../index";
                         }
                     }
                 },
-            }
+            },
+            tags: ['Users']
         },
         patch: {
             description: 'Registers a user based on the authorization token and the given user data. Just like POST, except all user options are optional',
@@ -89,7 +90,8 @@ import { HMACToken } from "../index";
                         }
                     }
                 },
-            }
+            },
+            tags: ['Users']
         }
     }
 })

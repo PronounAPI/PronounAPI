@@ -10,7 +10,7 @@ import CallbackRoute from "./callback";
 @RouteOptions({
     path: '/api/v1/users',
     middleware: [Middleware.Json],
-    spec: {}
+    spec: null
 })
 export default class UsersRoute extends Route {
     async patch(req: Request, res: Response) {

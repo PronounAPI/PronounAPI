@@ -136,7 +136,6 @@ export default class LookupRoute extends Route {
             pronounData.ownership = randomizedPronoun.ownership
         }
         let extraPronounData: PronounType[] = [];
-        console.log(userModel.extraPronouns)
         if (userModel.extraPronouns.length >= 1) {
             const extraPronouns = await Pronoun.findAll({
                 where: {

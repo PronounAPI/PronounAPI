@@ -138,7 +138,6 @@ export default class CallbackRoute extends Route {
                     error: 2,
                     message: 'Discord returned a non 2xx status code, was the provided code valid?'
                 })
-                console.log(e.response.body)
                 return
             }
             throw e

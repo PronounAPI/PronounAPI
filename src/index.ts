@@ -116,7 +116,21 @@ export const sequelize = new Sequelize({
                     description: 'Invalid data was provided to the server',
                     properties: {
                         error: {
+                            type: 'number',
+                            description: 'The error code'
+                        },
+                        message: {
                             type: 'string',
+                            description: 'The error message'
+                        }
+                    }
+                },
+                Unauthorized: {
+                    type: 'object',
+                    description: 'Invalid or missing authorization was sent',
+                    properties: {
+                        error: {
+                            type: 'number',
                             description: 'The error code'
                         },
                         message: {
@@ -132,7 +146,7 @@ export const sequelize = new Sequelize({
                     scheme: 'bearer',
                     bearerFormat: 'JWT'
                 }
-            }
+            }            
         },
         paths: {}
     }, [cors()])

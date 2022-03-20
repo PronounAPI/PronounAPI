@@ -17,8 +17,10 @@
   "dependencies": {
     "@sapphire/shapeshift": "^2.0.0",
     "@tyman/modulo": "github:TymanWasTaken/Modulo.git#commit=abf57e2f6a1465b80d3e0b5f2fdc9346e4837769",
+    "@types/common-tags": "^1.8.1",
     "@types/cors": "^2.8.12",
     "@types/sequelize": "^4.28.11",
+    "common-tags": "^1.8.2",
     "cors": "^2.8.5",
     "express": "^4.17.3",
     "got": "^11.8.3",

@@ -10,7 +10,159 @@ import { Pronoun } from "../models/Pronoun";
 @RouteOptions({
     path: '/api/v1/pronouns',
     middleware: [Middleware.Json],
-    spec: {}
+    spec: {
+        post: {
+            description: 'Create a pronoun',
+            requestBody: {
+                required: true,
+                content: {
+                    'application/json': {
+                        schema: {
+                            $ref: '#/components/schemas/Pronoun'
+                        }
+                    }
+                }
+            },
+            security: [{
+                Bearer: []
+            }],
+            responses: {
+                '200': {
+                    description: 'A successfully created pronoun response',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                $ref: '#/components/schemas/Pronoun'
+                            }
+                        }
+                    }
+                },
+                '422': {
+                    description: 'An invalid request was provided',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                $ref: '#/components/schemas/BadRequest'
+                            }
+                        }
+                    }
+                },
+                '401': {
+                    description: 'An invalid authorization token was provided',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                $ref: '#/components/schemas/Unauthorized'
+                            }
+                        }
+                    }
+                },
+                '429': {
+                    description: 'Too many requests',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                description: 'Too many requests',
+                                properties: {
+                                    error: {
+                                        type: 'number',
+                                        description: 'The error code'
+                                    },
+                                    message: {
+                                        type: 'string',
+                                        description: 'The error message'
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        delete: {
+            description: 'Deletes an existing pronoun, can only be done by the person who created it',
+            parameters: [{
+                in: 'path',
+                name: 'id',
+                description: 'The ID of the pronoun to delete',
+                required: true,
+                schema: {
+                    type: 'string'
+                }
+            }],
+            security: [{
+                Bearer: []
+            }],
+            responses: {
+                '200': {
+                    description: 'The pronoun was successfully deleted'
+                },
+                '401': {
+                    description: 'An invalid authorization token was provided',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                $ref: '#/components/schemas/Unauthorized'
+                            }
+                        }
+                    }
+                },
+                '422': {
+                    description: 'Invalid data was provided.',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                $ref: '#/components/schemas/BadRequest'
+                            }
+                        }
+                    }
+                },
+                '500': {
+                    description: 'An unknown internal server error',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                description: 'The error response',
+                                properties: {
+                                    error: {
+                                        type: 'number',
+                                        description: 'The error code'
+                                    },
+                                    message: {
+                                        type: 'string',
+                                        description: 'The error message'
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                '403': {
+                    description: 'The request was forbidden',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'object',
+                                description: 'The error response',
+                                properties: {
+                                    error: {
+                                        type: 'number',
+                                        description: 'The error code'
+                                    },
+                                    message: {
+                                        type: 'string',
+                                        description: 'The error message'
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 })
 export default class PronounsRoute extends Route {
     private rateLimiter = new RateLimiterMemory({
@@ -20,7 +172,6 @@ export default class PronounsRoute extends Route {
 
     async post(req: Request, res: Response) {
         try {
-            s.string.parse(req.headers.authorization)
             s.object({
                 pronoun: s.string,
                 singular: s.string,
@@ -30,11 +181,11 @@ export default class PronounsRoute extends Route {
         } catch {
             res.status(422).send({
                 error: 1,
-                message: 'Authorization or all pronoun data was not provided'
+                message: 'Valid pronoun data was not provided'
             })
             return
         }
-        const token = req.headers.authorization 
+        const token = req.headers.authorization?.replace?.('Bearer ', '')
         if (!token) {
             res.status(401).send({
                 error: 3,

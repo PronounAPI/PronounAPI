@@ -6,6 +6,7 @@ import { Sequelize, Op } from 'sequelize';
 import * as config from './config'
 import { RouteManager } from '@tyman/modulo';
 import cors from 'cors';
+import { randomBytes } from 'crypto';
 
 export interface PronounType {
     id: string;
@@ -22,6 +23,8 @@ export const sequelize = new Sequelize({
     ...config.database,
     logging: false
 });
+
+export const HMACToken = randomBytes(512);
 
 (async () => {
     await sequelize.authenticate()
@@ -108,6 +111,31 @@ export const sequelize = new Sequelize({
                             items: {
                                 "$ref": "#/components/schemas/Pronoun"
                             }
+                        }
+                    }
+                },
+                UserOptions: {
+                    type: 'object',
+                    description: 'User options provided to both POST and PATCH /api/v1/users',
+                    properties: {
+                        preferredPronounId: {
+                            type: 'string',
+                            description: 'The ID of the preferred pronoun of this user',
+                            example: 'itIts'
+                        },
+                        extraPronounIds: {
+                            type: 'array',
+                            description: 'An array of extra pronoun IDs for this user',
+                            items: {
+                                type: 'string',
+                                description: 'The ID of an extra pronoun of this user'
+                            },
+                            example: ['sheHer', 'heHim']
+                        },
+                        randomizedSubpronouns: {
+                            type: 'boolean',
+                            description: 'Whether or not to randomize the pronoun forms of this user from the subpronouns (e.g. he/she will either be he/him or she/him',
+                            example: false
                         }
                     }
                 },

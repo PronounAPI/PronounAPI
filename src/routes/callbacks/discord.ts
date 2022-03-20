@@ -1,10 +1,10 @@
 import { Route, RouteOptions } from '@tyman/modulo';
-import { randomBytes } from 'crypto';
 import { Request, Response } from 'express';
 import got, { HTTPError } from 'got';
-import * as config from '../config';
+import * as config from '../../config';
 import { s } from '@sapphire/shapeshift';
 import { SignJWT } from 'jose';
+import { HMACToken } from '../../index';
 
 interface CodeGrantResponse {
     access_token: string,
@@ -29,7 +29,7 @@ interface UserResponse {
 }
 
 @RouteOptions({
-    path: '/api/v1/callback',
+    path: '/api/v1/callback/discord',
     spec: {
         get: {
             description: 'The callback endpoint for discord oauth',
@@ -88,9 +88,7 @@ interface UserResponse {
         }
     }
 })
-export default class CallbackRoute extends Route {
-    public static HMACToken = randomBytes(512);
-    
+export default class DiscordCallbackRoute extends Route {    
     async get(req: Request, res: Response) {
         try {
             s.string.parse(req.query.code)
@@ -144,6 +142,7 @@ export default class CallbackRoute extends Route {
         }
         const jwt = await new SignJWT({
             sub: userResponse.id,
+            type: 'proof',
             platform: 'discord',
             tag: `${userResponse.username}#${userResponse.discriminator}`
         })
@@ -154,7 +153,7 @@ export default class CallbackRoute extends Route {
             .setIssuer('pronoundb-custom')
             .setIssuedAt()
             .setExpirationTime('2h')
-            .sign(CallbackRoute.HMACToken)
+            .sign(HMACToken)
         res.send({
             token: jwt
         })

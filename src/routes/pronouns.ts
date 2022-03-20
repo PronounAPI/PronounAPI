@@ -3,9 +3,9 @@ import { Request, Response } from "express";
 import { RateLimiterMemory, RateLimiterRes } from 'rate-limiter-flexible';
 import { s } from '@sapphire/shapeshift';
 import { jwtVerify } from "jose";
-import CallbackRoute from "./callback";
 import { User } from "../models/User";
 import { Pronoun } from "../models/Pronoun";
+import { HMACToken } from '../index';
 
 @RouteOptions({
     path: '/api/v1/pronouns',
@@ -193,7 +193,7 @@ export default class PronounsRoute extends Route {
             })
             return
         }
-        const verifiedJwt = await jwtVerify(token, CallbackRoute.HMACToken, {
+        const verifiedJwt = await jwtVerify(token, HMACToken, {
             issuer: 'pronoundb-custom'
         }).catch(e => null)
         if (!verifiedJwt) {
@@ -282,7 +282,7 @@ export default class PronounsRoute extends Route {
             })
             return
         }
-        const verifiedJwt = await jwtVerify(token, CallbackRoute.HMACToken, {
+        const verifiedJwt = await jwtVerify(token, HMACToken, {
             issuer: 'pronoundb-custom'
         }).catch(e => null)
         if (!verifiedJwt) {

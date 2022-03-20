@@ -38,7 +38,8 @@ interface PronounDBResponse {
                             'facebook',
                             'github',
                             'twitch',
-                            'twitter'
+                            'twitter',
+                            'minecraft'
                         ]
                     }
                 }
@@ -63,7 +64,8 @@ interface PronounDBResponse {
                                             'facebook',
                                             'github',
                                             'twitch',
-                                            'twitter'
+                                            'twitter',
+                                            'minecraft'
                                         ],
                                         description: 'The platform used to find this user'
                                     },
@@ -100,7 +102,8 @@ export default class LookupRoute extends Route {
                     'facebook',
                     'github',
                     'twitch',
-                    'twitter'
+                    'twitter',
+                    'minecraft'
                 ),
                 id: s.string
             }).parse(req.query);

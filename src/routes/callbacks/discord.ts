@@ -143,7 +143,7 @@ export default class DiscordCallbackRoute extends Route {
         }
         const jwt = await new SignJWT({
             sub: userResponse.id,
-            type: 'proof',
+            typ: 'proof',
             platform: 'discord',
             tag: `${userResponse.username}#${userResponse.discriminator}`
         })

@@ -18,7 +18,7 @@ interface PronounDBResponse {
             description: 'Lookup a user from the database. Will fallback to pronoundb compatibility if the specified user is not found',
             parameters: [
                 {
-                    in: 'path',
+                    in: 'query',
                     name: 'id',
                     description: 'The ID of the user to lookup',
                     required: true,
@@ -27,7 +27,7 @@ interface PronounDBResponse {
                     }
                 },
                 {
-                    in: 'path',
+                    in: 'query',
                     name: 'platform',
                     description: 'The platform of the user to lookup',
                     required: true,

@@ -99,10 +99,10 @@ export default class UsersRoute extends Route {
             })
             return
         }
-        const verifiedJwt = await jwtVerify(token, HMACToken, {
+        const verifiedJwt = await jwtVerify(token.replace('Bearer ', ''), HMACToken, {
             issuer: 'pronoundb-custom'
         }).catch(e => null)
-        if (!verifiedJwt) {
+        if (!verifiedJwt || verifiedJwt.payload.type !== 'user') {
             res.status(401).send({
                 error: 3,
                 message: 'Invalid token'
@@ -156,5 +156,39 @@ export default class UsersRoute extends Route {
         }
         await userModel.save()
         res.status(200).send()
+    }
+
+    async delete(req: Request, res: Response) {
+        const token = req.headers.authorization 
+        if (!token) {
+            res.status(401).send({
+                error: 3,
+                message: 'You must provide a token'
+            })
+            return
+        }
+        const verifiedJwt = await jwtVerify(token.replace('Bearer ', ''), HMACToken, {
+            issuer: 'pronoundb-custom'
+        }).catch(e => null)
+        if (!verifiedJwt || verifiedJwt.payload.type !== 'user') {
+            res.status(401).send({
+                error: 3,
+                message: 'Invalid token'
+            })
+            return
+        }
+        const userModel = await User.destroy({
+            where: {
+                id: verifiedJwt.payload.sub
+            }
+        })
+        if (userModel >= 1) {
+            res.status(200).send()
+        } else {
+            res.status(500).send({
+                error: 5,
+                message: 'Unknown internal server error'
+            })
+        }
     }
 }

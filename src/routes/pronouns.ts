@@ -195,7 +195,7 @@ export default class PronounsRoute extends Route {
             })
             return
         }
-        const verifiedJwt = await jwtVerify(token, HMACToken, {
+        const verifiedJwt = await jwtVerify(token.replace('Bearer ', ''), HMACToken, {
             issuer: 'pronoundb-custom'
         }).catch(e => null)
         if (!verifiedJwt) {
@@ -284,7 +284,7 @@ export default class PronounsRoute extends Route {
             })
             return
         }
-        const verifiedJwt = await jwtVerify(token, HMACToken, {
+        const verifiedJwt = await jwtVerify(token.replace('Bearer ', ''), HMACToken, {
             issuer: 'pronoundb-custom'
         }).catch(e => null)
         if (!verifiedJwt) {

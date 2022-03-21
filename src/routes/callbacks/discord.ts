@@ -96,7 +96,7 @@ export default class DiscordCallbackRoute extends Route {
         } catch {
             res.status(422).send({
                 error: 1,
-                message: 'Code was not provided, was this url redirected from discord?'
+                message: 'Code was not provided'
             })
             return
         }

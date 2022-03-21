@@ -1,8 +1,6 @@
 import { Middleware, Route, RouteOptions } from "@tyman/modulo";
 import { Request, Response } from "express";
 import { jwtVerify, SignJWT } from "jose";
-import { Op } from "sequelize";
-import { Pronoun } from "../../models/Pronoun";
 import { User } from "../../models/User";
 import { HMACToken, SupportedPlatforms } from "../../index";
 
@@ -43,7 +41,8 @@ import { HMACToken, SupportedPlatforms } from "../../index";
                         }
                     }
                 }
-            }
+            },
+            tags: ['Users']
         }
     }
 })
@@ -69,10 +68,10 @@ export default class UsersLoginRoute extends Route {
         }
         const [user] = await User.findOrCreate({
             where: {
-                [verifiedJwt.payload.platform as SupportedPlatforms]: verifiedJwt.payload.sub
+                [verifiedJwt.payload.platform as SupportedPlatforms]: verifiedJwt.payload.sub!
             },
             defaults: {
-                [verifiedJwt.payload.platform as SupportedPlatforms]: verifiedJwt.payload.sub
+                [verifiedJwt.payload.platform as SupportedPlatforms]: verifiedJwt.payload.sub!
             }
         })
         const jwt = await new SignJWT({

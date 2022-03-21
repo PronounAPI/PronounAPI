@@ -20,8 +20,8 @@ export interface PronounType {
     subpronouns: string[];
 }
 
-export type SupportedPlatforms = 'discord'
-export type Platforms = SupportedPlatforms | 'facebook' | 'github' | 'twitch' | 'twitter' | 'minecraft'
+export type SupportedPlatforms = 'discord' | 'minecraft'
+export type Platforms = SupportedPlatforms | 'facebook' | 'github' | 'twitch' | 'twitter'
 
 export const sequelize = new Sequelize({
     dialect: 'postgres',
@@ -151,6 +151,14 @@ export const HMACToken = randomBytes(512);
                             type: 'boolean',
                             description: 'Whether or not to randomize the pronoun forms of this user from the subpronouns (e.g. he/she will either be he/him or she/him',
                             example: false
+                        },
+                        discordToken: {
+                            type: 'string',
+                            description: 'A proof JWT token returned from the discord callback'
+                        },
+                        minecraftToken: {
+                            type: 'string',
+                            description: 'A proof JWT token returned from the minecraft callback'
                         }
                     },
                     required: []

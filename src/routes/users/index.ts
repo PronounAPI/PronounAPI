@@ -82,7 +82,9 @@ export default class UsersRoute extends Route {
             s.object({
                 preferredPronounId: s.string,
                 extraPronounIds: s.array(s.string),
-                randomizedSubpronouns: s.boolean
+                randomizedSubpronouns: s.boolean,
+                discordToken: s.string,
+                minecraftToken: s.string
             }).partial.parse(req.body)
         } catch {
             res.status(422).send({
@@ -132,7 +134,7 @@ export default class UsersRoute extends Route {
             }
             userModel.preferredPronoun = pronoun.id
         }
-        if (req.body.extraPronounIds.length >= 1) {
+        if ((req.body.extraPronounIds ?? []).length >= 1) {
             const {rows: pronouns, count} = await Pronoun.findAndCountAll({
                 where: {
                     id: {
@@ -153,6 +155,56 @@ export default class UsersRoute extends Route {
         }
         if (req.body.randomizedSubpronouns) {
             userModel.randomizedSubpronouns = req.body.randomizedSubpronouns
+        }
+        if (req.body.discordToken) {
+            const verifiedDiscordJwt = await jwtVerify(req.body.discordToken, HMACToken, {
+                issuer: 'pronoundb-custom'
+            }).catch(e => null)
+            if (!verifiedDiscordJwt || verifiedDiscordJwt.payload.type !== 'proof' || verifiedDiscordJwt.payload.platform !== 'discord') {
+                res.status(401).send({
+                    error: 3,
+                    message: 'Invalid discord token'
+                })
+                return
+            }
+            const existingCount = await User.count({
+                where: {
+                    discord: verifiedDiscordJwt.payload.sub!
+                }
+            })
+            if (existingCount >= 1) {
+                res.status(403).send({
+                    error: 9,
+                    message: 'This discord account is already linked to another user'
+                })
+                return
+            }
+            userModel.discord = verifiedDiscordJwt.payload.sub!
+        }
+        if (req.body.minecraftToken) {
+            const verifiedMinecraftJwt = await jwtVerify(req.body.minecraftToken, HMACToken, {
+                issuer: 'pronoundb-custom'
+            }).catch(e => null)
+            if (!verifiedMinecraftJwt || verifiedMinecraftJwt.payload.type !== 'proof' || verifiedMinecraftJwt.payload.platform !== 'minecraft') {
+                res.status(401).send({
+                    error: 3,
+                    message: 'Invalid minecraft token'
+                })
+                return
+            }
+            const existingCount = await User.count({
+                where: {
+                    minecraft: verifiedMinecraftJwt.payload.sub!
+                }
+            })
+            if (existingCount >= 1) {
+                res.status(403).send({
+                    error: 9,
+                    message: 'This minecraft account is already linked to another user'
+                })
+                return
+            }
+            userModel.minecraft = verifiedMinecraftJwt.payload.sub!
         }
         await userModel.save()
         res.status(200).send()

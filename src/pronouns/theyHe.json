@@ -2,9 +2,11 @@
     "id": "theyHe",
     "pronoundb": "th",
     "pronoun": "they/he",
-    "description": "them",
-    "singular": "they",
-    "ownership": "their",
+    "subject": "them",
+    "object": "they",
+    "possessiveDeterminer": "their",
+    "possessivePronoun": "theirs",
+    "reflexive": "themselves",
     "subpronouns": [
         "theyThem",
         "heHim"

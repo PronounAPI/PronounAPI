@@ -127,17 +127,21 @@ export default class LookupRoute extends Route {
             id: pronoun.id,
             pronoundb: pronoun.pronoundb,
             pronoun: pronoun.pronoun,
-            singular: pronoun.singular,
-            description: pronoun.description,
-            ownership: pronoun.ownership,
+            subject: pronoun.subject,
+            object: pronoun.object,
+            possessiveDeterminer: pronoun.possessiveDeterminer,
+            possessivePronoun: pronoun.possessivePronoun,
+            reflexive: pronoun.reflexive,
             subpronouns: pronoun.subpronouns
         }
         if (pronounData.subpronouns.length >= 2 && userModel.randomizedSubpronouns) {
             const randomizedPronoun = (await Pronoun.findByPk(pronoun.subpronouns[Math.floor(Math.random()*pronoun.subpronouns.length)]))!;
             pronounData.pronoun = `${randomizedPronoun.pronoun} (${pronoun.pronoun})`   
-            pronounData.singular = randomizedPronoun.singular
-            pronounData.description = randomizedPronoun.description
-            pronounData.ownership = randomizedPronoun.ownership
+            pronounData.subject = randomizedPronoun.subject
+            pronounData.object = randomizedPronoun.object
+            pronounData.possessiveDeterminer = randomizedPronoun.possessiveDeterminer
+            pronounData.possessivePronoun = randomizedPronoun.possessivePronoun
+            pronounData.reflexive = randomizedPronoun.reflexive
         }
         let extraPronounData: PronounType[] = [];
         if (userModel.extraPronouns.length >= 1) {
@@ -152,18 +156,22 @@ export default class LookupRoute extends Route {
                 id: p.id,
                 pronoundb: p.pronoundb,
                 pronoun: p.pronoun,
-                singular: p.singular,
-                description: p.description,
-                ownership: p.ownership,
+                subject: p.subject,
+                object: p.object,
+                possessiveDeterminer: p.possessiveDeterminer,
+                possessivePronoun: p.possessivePronoun,
+                reflexive: p.reflexive,
                 subpronouns: p.subpronouns
             }))
             for (const [i, extraPronoun] of extraPronounData.entries()) {
                 if (extraPronoun.subpronouns.length >= 2 && userModel.randomizedSubpronouns) {
                     const randomizedPronoun = (await Pronoun.findByPk(extraPronoun.subpronouns[Math.floor(Math.random()*pronoun.subpronouns.length)]))!;
                     extraPronounData[i].pronoun = `${randomizedPronoun.pronoun} (${extraPronoun.pronoun})`   
-                    extraPronounData[i].singular = randomizedPronoun.singular
-                    extraPronounData[i].description = randomizedPronoun.description
-                    extraPronounData[i].ownership = randomizedPronoun.ownership
+                    extraPronounData[i].subject = randomizedPronoun.subject
+                    extraPronounData[i].object = randomizedPronoun.object
+                    extraPronounData[i].possessiveDeterminer = randomizedPronoun.possessiveDeterminer
+                    extraPronounData[i].possessivePronoun = randomizedPronoun.possessivePronoun
+                    extraPronounData[i].reflexive = randomizedPronoun.reflexive
                 }
             }
         }
@@ -202,7 +210,17 @@ export default class LookupRoute extends Route {
         res.send({
             userId: req.query.id,
             platform: req.query.platform,
-            preferredPronoun: pronounDetails,
+            preferredPronoun: {
+                id: pronounDetails.id,
+                pronoundb: pronounDetails.pronoundb,
+                pronoun: pronounDetails.pronoun,
+                subject: pronounDetails.subject,
+                object: pronounDetails.object,
+                possessiveDeterminer: pronounDetails.possessiveDeterminer,
+                possessivePronoun: pronounDetails.possessivePronoun,
+                reflexive: pronounDetails.reflexive,
+                subpronouns: pronounDetails.subpronouns
+            },
             extraPronouns: [],
             pronoundbCompat: true
         })

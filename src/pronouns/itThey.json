@@ -2,9 +2,11 @@
     "id": "itThey",
     "pronoundb": "it",
     "pronoun": "it/they",
-    "description": "it",
-    "singular": "it",
-    "ownership": "its",
+    "subject": "it",
+    "object": "it",
+    "possessiveDeterminer": "its",
+    "possessivePronoun": "its",
+    "reflexive": "itself",
     "subpronouns": [
         "itIts",
         "theyThem"

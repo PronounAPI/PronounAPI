@@ -2,8 +2,10 @@
     "id": "theyThem",
     "pronoundb": "tt",
     "pronoun": "they/them",
-    "description": "them",
-    "singular": "they",
-    "ownership": "their",
+    "subject": "them",
+    "object": "they",
+    "possessiveDeterminer": "their",
+    "possessivePronoun": "theirs",
+    "reflexive": "themselves",
     "subpronouns": []
 }

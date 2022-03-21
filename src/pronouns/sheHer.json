@@ -2,8 +2,10 @@
     "id": "sheHer",
     "pronoundb": "sh",
     "pronoun": "she/her",
-    "description": "her",
-    "singular": "she",
-    "ownership": "hers",
+    "subject": "her",
+    "object": "she",
+    "possessiveDeterminer": "her",
+    "possessivePronoun": "hers",
+    "reflexive": "herself",
     "subpronouns": []
 }

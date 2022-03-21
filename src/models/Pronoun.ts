@@ -6,9 +6,11 @@ interface PronounModelAttributes {
     creatorId: number;
     pronoun: string;
     pronoundb: string|null;
-    singular: string;
-    description: string;
-    ownership: string;
+    subject: string;
+    object: string;
+    possessiveDeterminer: string;
+    possessivePronoun: string;
+    reflexive: string;
     subpronouns: string[];
 }
 
@@ -17,9 +19,11 @@ interface PronounModelCreationAttributes {
     creatorId: number|null;
     pronoun: string;
     pronoundb?: string|null;
-    singular: string;
-    description: string;
-    ownership: string;
+    subject: string;
+    object: string;
+    possessiveDeterminer: string;
+    possessivePronoun: string;
+    reflexive: string;
     subpronouns?: string[];
 }
 
@@ -31,9 +35,11 @@ export class Pronoun extends Model<PronounModelAttributes, PronounModelCreationA
     declare pronoun: string;
     declare pronoundb: string|null;
     declare creatorId: number|null;
-    declare singular: string;
-    declare description: string;
-    declare ownership: string;
+    declare subject: string;
+    declare object: string;
+    declare possessiveDeterminer: string;
+    declare possessivePronoun: string;
+    declare reflexive: string;
     declare subpronouns: string[];
 
     static initModel(sequelize: Sequelize) {
@@ -60,17 +66,27 @@ export class Pronoun extends Model<PronounModelAttributes, PronounModelCreationA
                 primaryKey: false,
                 allowNull: false
             },
-            singular: {
+            subject: {
                 type: DataTypes.STRING,
                 primaryKey: false,
                 allowNull: false
             },
-            description: {
+            object: {
                 type: DataTypes.STRING,
                 primaryKey: false,
                 allowNull: false
             },
-            ownership: {
+            possessiveDeterminer: {
+                type: DataTypes.STRING,
+                primaryKey: false,
+                allowNull: false
+            },
+            possessivePronoun: {
+                type: DataTypes.STRING,
+                primaryKey: false,
+                allowNull: false
+            },
+            reflexive: {
                 type: DataTypes.STRING,
                 primaryKey: false,
                 allowNull: false

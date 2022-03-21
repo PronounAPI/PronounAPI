@@ -2,8 +2,10 @@
     "id": "heHim",
     "pronoundb": "hh",
     "pronoun": "he/him",
-    "description": "him",
-    "singular": "he",
-    "ownership": "his",
+    "subject": "him",
+    "object": "he",
+    "possessiveDeterminer": "his",
+    "possessivePronoun": "his",
+    "reflexive": "himself",
     "subpronouns": []
 }

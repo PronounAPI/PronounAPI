@@ -249,17 +249,21 @@ export default class PronounsRoute extends Route {
         const pronoun = await Pronoun.create({
             creatorId: user.id,
             pronoun: req.body.pronoun,
-            singular: req.body.singular,
-            description: req.body.description,
-            ownership: req.body.ownership
+            subject: req.body.subject,
+            object: req.body.object,
+            possessiveDeterminer: req.body.possessiveDeterminer,
+            possessivePronoun: req.body.possessivePronoun,
+            reflexive: req.body.reflexive,
         })
         res.send({
             id: pronoun.id,
             creatorId: pronoun.creatorId,
             pronoun: pronoun.pronoun,
-            singular: pronoun.singular,
-            description: pronoun.description,
-            ownership: pronoun.ownership,
+            subject: pronoun.subject,
+            object: pronoun.object,
+            possessiveDeterminer: pronoun.possessiveDeterminer,
+            possessivePronoun: pronoun.possessivePronoun,
+            reflexive: pronoun.reflexive,
             pronoundb: pronoun.pronoundb
         })
     }

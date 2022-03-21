@@ -2,8 +2,10 @@
     "id": "askPronouns",
     "pronoundb": "ask",
     "pronoun": "Ask me my pronouns",
-    "description": "this person",
-    "singular": "this person",
-    "ownership": "this person's",
+    "subject": "that person",
+    "object": "this person",
+    "possessiveDeterminer": "this person's",
+    "possessivePronoun": "this person's",
+    "reflexive": "this person",
     "subpronouns": []
 }

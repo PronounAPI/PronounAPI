@@ -2,8 +2,10 @@
     "id": "avoidPronouns",
     "pronoundb": "avoid",
     "pronoun": "Avoid pronouns, use my name",
-    "description": "{{name}}",
-    "singular": "{{name}}",
-    "ownership": "{{name}}'s",
+    "subject": "that person",
+    "object": "this person",
+    "possessiveDeterminer": "this person's",
+    "possessivePronoun": "this person's",
+    "reflexive": "this person",
     "subpronouns": []
 }

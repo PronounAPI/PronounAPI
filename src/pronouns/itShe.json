@@ -2,9 +2,11 @@
     "id": "itShe",
     "pronoundb": "is",
     "pronoun": "it/she",
-    "description": "it",
-    "singular": "it",
-    "ownership": "its",
+    "subject": "it",
+    "object": "it",
+    "possessiveDeterminer": "its",
+    "possessivePronoun": "its",
+    "reflexive": "itself",
     "subpronouns": [
         "itIts",
         "sheHer"

@@ -12,9 +12,11 @@ export interface PronounType {
     id: string;
     pronoundb: string|null;
     pronoun: string;
-    singular: string;
-    ownership: string;
-    description: string;
+    subject: string;
+    object: string;
+    possessiveDeterminer: string;
+    possessivePronoun: string;
+    reflexive: string;
     subpronouns: string[];
 }
 
@@ -93,20 +95,30 @@ export const HMACToken = randomBytes(512);
                             description: 'The pronoun\'s nice name',
                             example: 'it/its'
                         },
-                        singular: {
+                        subject: {
                             type: 'string',
-                            description: 'The singular form of this pronoun',
-                            example: 'it'
+                            description: 'The subject form of this pronoun',
+                            example: 'them'
                         },
-                        description: {
+                        object: {
                             type: 'string',
-                            description: 'The descriptive form of this pronoun',
-                            example: 'it'
+                            description: 'The object form of this pronoun',
+                            example: 'they'
                         },
-                        ownership: {
+                        possessiveDeterminer: {
                             type: 'string',
-                            description: 'The posessive form of this pronoun',
-                            example: 'its'
+                            description: 'The possessive determiner form of this pronoun',
+                            example: 'their'
+                        },
+                        possessivePronoun: {
+                            type: 'string',
+                            description: 'The possessive pronoun form of this pronoun',
+                            example: 'theirs'
+                        },
+                        reflexive: {
+                            type: 'string',
+                            description: 'The reflexive form of this pronoun',
+                            example: 'themselves'
                         },
                         subpronouns: {
                             type: 'array',

@@ -176,9 +176,11 @@ export default class PronounsRoute extends Route {
         try {
             s.object({
                 pronoun: s.string,
-                singular: s.string,
-                description: s.string,
-                ownership: s.string,
+                subject: s.string,
+                object: s.string,
+                possessiveDeterminer: s.string,
+                possessivePronoun: s.string,
+                reflexive: s.string
             }).parse(req.body)
         } catch {
             res.status(422).send({

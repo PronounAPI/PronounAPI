@@ -1,5 +1,9 @@
 # pronoundb-custom
 
+A remake of the original [pronoundb](https://github.com/cyyynthia/pronoundb.org) by cynthia
+
+The original is licensed under the [BSD 3-Clause "New" or "Revised" License](https://spdx.org/licenses/BSD-3-Clause.html), no code from the original was used
+
 ## Error code meanings
 
 | Error code | Meaning                                       | Example                                                 |

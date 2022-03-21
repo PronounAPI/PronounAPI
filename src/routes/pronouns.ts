@@ -24,7 +24,7 @@ import { HMACToken } from '../index';
                 }
             },
             security: [{
-                Bearer: []
+                User: []
             }],
             responses: {
                 '200': {
@@ -93,7 +93,7 @@ import { HMACToken } from '../index';
                 }
             }],
             security: [{
-                Bearer: []
+                User: []
             }],
             responses: {
                 '200': {
@@ -224,7 +224,7 @@ export default class PronounsRoute extends Route {
         }
         const user = await User.findOne({
             where: {
-                discord: verifiedJwt.payload.sub
+                id: verifiedJwt.payload.sub
             }
         })
         if (!user) {
@@ -304,7 +304,7 @@ export default class PronounsRoute extends Route {
         }
         const user = await User.findOne({
             where: {
-                discord: verifiedJwt.payload.sub
+                id: verifiedJwt.payload.sub
             }
         })
         if (!user) {

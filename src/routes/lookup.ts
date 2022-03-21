@@ -5,7 +5,7 @@ import { Op } from 'sequelize';
 import { Pronoun } from '../models/Pronoun';
 import { User } from '../models/User';
 import { s } from '@sapphire/shapeshift';
-import { PronounType } from '../index';
+import { PronounType, SupportedPlatforms } from '../index';
 
 interface PronounDBResponse {
     pronouns: string
@@ -118,7 +118,7 @@ export default class LookupRoute extends Route {
         if (req.query.platform !== 'discord') return this.getPronoundbCompat(req, res);
         const userModel = await User.findOne({
             where: {
-                discord: req.query.id as string
+                [req.query.platform as SupportedPlatforms]: req.query.id as string
             }
         });
         if (!userModel) return this.getPronoundbCompat(req, res);

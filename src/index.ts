@@ -18,6 +18,9 @@ export interface PronounType {
     subpronouns: string[];
 }
 
+export type SupportedPlatforms = 'discord'
+export type Platforms = SupportedPlatforms | 'facebook' | 'github' | 'twitch' | 'twitter' | 'minecraft'
+
 export const sequelize = new Sequelize({
     dialect: 'postgres',
     ...config.database,
@@ -137,7 +140,8 @@ export const HMACToken = randomBytes(512);
                             description: 'Whether or not to randomize the pronoun forms of this user from the subpronouns (e.g. he/she will either be he/him or she/him',
                             example: false
                         }
-                    }
+                    },
+                    required: []
                 },
                 BadRequest: {
                     type: 'object',
@@ -169,10 +173,17 @@ export const HMACToken = randomBytes(512);
                 }
             },
             securitySchemes: {
-                Bearer: {
+                Proof: {
                     type: 'http',
                     scheme: 'bearer',
-                    bearerFormat: 'JWT'
+                    bearerFormat: 'JWT',
+                    description: 'A token proving ownership of an account on one of the supported platforms. These are issued by /api/v1/callback endpoints.'
+                },
+                User: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
+                    description: 'Used as authorization by all endpoints based around users. These are only issued by the /api/v1/users/login endpoint.'
                 }
             }            
         },

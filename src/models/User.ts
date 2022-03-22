@@ -6,6 +6,7 @@ interface UserModelAttributes {
     extraPronouns: string[];
     discord: string;
     minecraft: string;
+    github: string;
     randomizedSubpronouns: boolean;
 }
 
@@ -16,6 +17,7 @@ export class User extends Model<UserModelAttributes, Partial<UserModelAttributes
     declare id: number;
     declare discord: string|null;
     declare minecraft: string|null;
+    declare github: string|null;
     declare preferredPronoun: string;
     declare extraPronouns: string[];
     declare randomizedSubpronouns: boolean;
@@ -50,6 +52,12 @@ export class User extends Model<UserModelAttributes, Partial<UserModelAttributes
                 unique: true
             },
             minecraft: {
+                type: DataTypes.STRING,
+                primaryKey: false,
+                allowNull: true,
+                unique: true
+            },
+            github: {
                 type: DataTypes.STRING,
                 primaryKey: false,
                 allowNull: true,

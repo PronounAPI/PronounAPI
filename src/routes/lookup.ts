@@ -115,7 +115,7 @@ export default class LookupRoute extends Route {
             });
             return;
         }
-        if (!["discord", "minecraft"].includes(req.query.platform as string)) return this.getPronoundbCompat(req, res);
+        if (!["discord", "minecraft", "github"].includes(req.query.platform as string)) return this.getPronoundbCompat(req, res);
         const userModel = await User.findOne({
             where: {
                 [req.query.platform as SupportedPlatforms]: req.query.id as string

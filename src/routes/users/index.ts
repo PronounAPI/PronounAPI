@@ -84,7 +84,8 @@ export default class UsersRoute extends Route {
                 extraPronounIds: s.array(s.string),
                 randomizedSubpronouns: s.boolean,
                 discordToken: s.string,
-                minecraftToken: s.string
+                minecraftToken: s.string,
+                githubToken: s.string
             }).partial.parse(req.body)
         } catch {
             res.status(422).send({
@@ -205,6 +206,31 @@ export default class UsersRoute extends Route {
                 return
             }
             userModel.minecraft = verifiedMinecraftJwt.payload.sub!
+        }
+        if (req.body.githubToken) {
+            const verifiedGithubJwt = await jwtVerify(req.body.githubToken, HMACToken, {
+                issuer: 'pronoundb-custom'
+            }).catch(e => null)
+            if (!verifiedGithubJwt || verifiedGithubJwt.payload.type !== 'proof' || verifiedGithubJwt.payload.platform !== 'github') {
+                res.status(401).send({
+                    error: 3,
+                    message: 'Invalid github token'
+                })
+                return
+            }
+            const existingCount = await User.count({
+                where: {
+                    github: verifiedGithubJwt.payload.sub!
+                }
+            })
+            if (existingCount >= 1) {
+                res.status(403).send({
+                    error: 9,
+                    message: 'This github account is already linked to another user'
+                })
+                return
+            }
+            userModel.github = verifiedGithubJwt.payload.sub!
         }
         await userModel.save()
         res.status(200).send()

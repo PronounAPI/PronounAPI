@@ -20,8 +20,8 @@ export interface PronounType {
     subpronouns: string[];
 }
 
-export type SupportedPlatforms = 'discord' | 'minecraft'
-export type Platforms = SupportedPlatforms | 'facebook' | 'github' | 'twitch' | 'twitter'
+export type SupportedPlatforms = 'discord' | 'minecraft' | 'github'
+export type Platforms = SupportedPlatforms | 'facebook' | 'twitch' | 'twitter'
 
 export const sequelize = new Sequelize({
     dialect: 'postgres',
@@ -159,6 +159,10 @@ export const HMACToken = randomBytes(512);
                         minecraftToken: {
                             type: 'string',
                             description: 'A proof JWT token returned from the minecraft callback'
+                        },
+                        githubToken: {
+                            type: 'string',
+                            description: 'A proof JWT token returned from the github callback'
                         }
                     },
                     required: []

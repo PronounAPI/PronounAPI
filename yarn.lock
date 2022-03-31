@@ -962,9 +962,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pronoundb-custom@workspace:.":
+"pronounapi@workspace:.":
   version: 0.0.0-use.local
-  resolution: "pronoundb-custom@workspace:."
+  resolution: "pronounapi@workspace:."
   dependencies:
     "@sapphire/shapeshift": ^2.0.0
     "@tyman/modulo": "github:TymanWasTaken/Modulo.git#commit=abf57e2f6a1465b80d3e0b5f2fdc9346e4837769"

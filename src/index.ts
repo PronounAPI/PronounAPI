@@ -64,7 +64,7 @@ export const HMACToken = randomBytes(512);
     const routeManager = new RouteManager(path.join(__dirname, 'routes'), {
         openapi: '3.0.0',
         info: {
-            title: 'Pronoundb-custom',
+            title: 'pronounapi',
             description: 'A remake based on pronoundb, that maintains compatibility with the original',
             license: {
                 name: 'NPOSL-3.0',

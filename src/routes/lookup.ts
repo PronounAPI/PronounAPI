@@ -95,19 +95,36 @@ interface PronounDBResponse {
     }
 })
 export default class LookupRoute extends Route {
+    private static uuidWithDashesRegex = /[\w\d]{8}-[\w\d]{4}-[\w\d]{4}-[\w\d]{4}-[\w\d]{12}/
+
     async get(req: Request, res: Response) {
         try {
-            s.object({
-                platform: s.enum(
-                    'discord',
-                    'facebook',
-                    'github',
-                    'twitch',
-                    'twitter',
-                    'minecraft'
-                ),
-                id: s.string
-            }).parse(req.query);
+            s.union(
+                s.object({
+                    platform: s.literal('discord'),
+                    id: s.string.regex(/\d+/)
+                }),
+                s.object({
+                    platform: s.literal('facebook'),
+                    id: s.string.regex(/\d+/)
+                }),
+                s.object({
+                    platform: s.literal('github'),
+                    id: s.string.regex(/\d+/)
+                }),
+                s.object({
+                    platform: s.literal('twitch'),
+                    id: s.string.regex(/\d+/)
+                }),
+                s.object({
+                    platform: s.literal('twitter'),
+                    id: s.string.regex(/\d+/)
+                }),
+                s.object({
+                    platform: s.literal('minecraft'),
+                    id: s.string.regex(/[\w\d]{8}-?[\w\d]{4}-?[\w\d]{4}-?[\w\d]{4}-?[\w\d]{12}/)
+                })
+            ).parse(req.query);
         } catch {
             res.status(422).send({
                 error: 1,
@@ -115,6 +132,9 @@ export default class LookupRoute extends Route {
             });
             return;
         }
+        // Fix uuid dashes if mc
+        if (req.query.platform === "minecraft") req.query.id = LookupRoute.fixUuidDashes(req.query.id as string)
+        // Check if platform is supported
         if (!["discord", "minecraft", "github"].includes(req.query.platform as string)) return this.getPronoundbCompat(req, res);
         const userModel = await User.findOne({
             where: {
@@ -224,5 +244,10 @@ export default class LookupRoute extends Route {
             extraPronouns: [],
             pronoundbCompat: true
         })
+    }
+
+    public static fixUuidDashes(str: string) {
+        if (str.match(this.uuidWithDashesRegex)) return str
+        return `${str.slice(0, 8)}-${str.slice(8, 12)}-${str.slice(12, 16)}-${str.slice(16, 20)}-${str.slice(20, 32)}`
     }
 }

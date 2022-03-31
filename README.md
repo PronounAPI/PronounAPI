@@ -1,8 +1,21 @@
-# pronoundb-custom
+# pronounapi
 
-A remake of the original [pronoundb](https://github.com/cyyynthia/pronoundb.org) by cynthia
+An API that allows users of various platforms to set their pronouns (with custom pronoun support), that also maintains compatibility with the original [pronoundb](https://github.com/cyyynthia/pronoundb.org) by cynthia
 
-The original is licensed under the [BSD 3-Clause "New" or "Revised" License](https://spdx.org/licenses/BSD-3-Clause.html), no code from the original was used
+## Legal stuff
+
+
+### PronounAPI
+
+License: [Non-Profit Open Software License version 3.0](https://spdx.org/licenses/NPOSL-3.0.html).
+
+### PronounDB
+
+Source code link: https://github.com/cyyynthia/pronoundb.org
+License: [BSD 3-Clause "New" or "Revised" License](https://spdx.org/licenses/BSD-3-Clause.html)
+Copyright: 2020-2022 Cynthia K. Rey, All rights reserved.
+
+No code from the original PronounDB was used in the making of PronounAPI.
 
 ## Error code meanings
 

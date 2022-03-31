@@ -103,7 +103,7 @@ export default class UsersRoute extends Route {
             return
         }
         const verifiedJwt = await jwtVerify(token.replace('Bearer ', ''), HMACToken, {
-            issuer: 'pronoundb-custom'
+            issuer: 'pronounapi'
         }).catch(e => null)
         if (!verifiedJwt || verifiedJwt.payload.type !== 'user') {
             res.status(401).send({
@@ -159,7 +159,7 @@ export default class UsersRoute extends Route {
         }
         if (req.body.discordToken) {
             const verifiedDiscordJwt = await jwtVerify(req.body.discordToken, HMACToken, {
-                issuer: 'pronoundb-custom'
+                issuer: 'pronounapi'
             }).catch(e => null)
             if (!verifiedDiscordJwt || verifiedDiscordJwt.payload.type !== 'proof' || verifiedDiscordJwt.payload.platform !== 'discord') {
                 res.status(401).send({
@@ -184,7 +184,7 @@ export default class UsersRoute extends Route {
         }
         if (req.body.minecraftToken) {
             const verifiedMinecraftJwt = await jwtVerify(req.body.minecraftToken, HMACToken, {
-                issuer: 'pronoundb-custom'
+                issuer: 'pronounapi'
             }).catch(e => null)
             if (!verifiedMinecraftJwt || verifiedMinecraftJwt.payload.type !== 'proof' || verifiedMinecraftJwt.payload.platform !== 'minecraft') {
                 res.status(401).send({
@@ -209,7 +209,7 @@ export default class UsersRoute extends Route {
         }
         if (req.body.githubToken) {
             const verifiedGithubJwt = await jwtVerify(req.body.githubToken, HMACToken, {
-                issuer: 'pronoundb-custom'
+                issuer: 'pronounapi'
             }).catch(e => null)
             if (!verifiedGithubJwt || verifiedGithubJwt.payload.type !== 'proof' || verifiedGithubJwt.payload.platform !== 'github') {
                 res.status(401).send({
@@ -246,7 +246,7 @@ export default class UsersRoute extends Route {
             return
         }
         const verifiedJwt = await jwtVerify(token.replace('Bearer ', ''), HMACToken, {
-            issuer: 'pronoundb-custom'
+            issuer: 'pronounapi'
         }).catch(e => null)
         if (!verifiedJwt || verifiedJwt.payload.type !== 'user') {
             res.status(401).send({

@@ -4,6 +4,7 @@ import { s } from '@sapphire/shapeshift';
 import got from "got";
 import { SignJWT } from "jose";
 import { HMACToken } from "../../index";
+import LookupRoute from "../lookup";
 
 type McOauthResponse = {
     status: 'success';
@@ -101,7 +102,7 @@ export default class MinecraftCallbackRoute extends Route {
             return
         }
         const jwt = await new SignJWT({
-            sub: response.uuid,
+            sub: LookupRoute.fixUuidDashes(response.uuid),
             type: 'proof',
             platform: 'minecraft',
             username: response.username
@@ -110,7 +111,7 @@ export default class MinecraftCallbackRoute extends Route {
                 typ: 'JWT',
                 alg: 'HS512'
             })
-            .setIssuer('pronoundb-custom')
+            .setIssuer('pronounapi')
             .setIssuedAt()
             .setExpirationTime('2h')
             .sign(HMACToken)

@@ -1,5 +1,5 @@
 {
-  "name": "pronoundb-custom",
+  "name": "pronounapi",
   "packageManager": "yarn@3.2.0",
   "license": "NPOSL-3.0",
   "main": "dist/index.js",

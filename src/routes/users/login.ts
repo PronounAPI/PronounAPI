@@ -57,7 +57,7 @@ export default class UsersLoginRoute extends Route {
             return
         }
         const verifiedJwt = await jwtVerify(token.replace('Bearer ', ''), HMACToken, {
-            issuer: 'pronoundb-custom'
+            issuer: 'pronounapi'
         }).catch(e => null)
         if (!verifiedJwt || verifiedJwt.payload.type !== 'proof') {
             res.status(401).send({
@@ -82,7 +82,7 @@ export default class UsersLoginRoute extends Route {
                 typ: 'JWT',
                 alg: 'HS512'
             })
-            .setIssuer('pronoundb-custom')
+            .setIssuer('pronounapi')
             .setIssuedAt()
             .setExpirationTime('2h')
             .sign(HMACToken)

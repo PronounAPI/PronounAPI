@@ -151,7 +151,7 @@ export default class DiscordCallbackRoute extends Route {
                 typ: 'JWT',
                 alg: 'HS512'
             })
-            .setIssuer('pronoundb-custom')
+            .setIssuer('pronounapi')
             .setIssuedAt()
             .setExpirationTime('2h')
             .sign(HMACToken)

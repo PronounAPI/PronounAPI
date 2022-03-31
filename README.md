@@ -2,6 +2,10 @@
 
 An API that allows users of various platforms to set their pronouns (with custom pronoun support), that also maintains compatibility with the original [pronoundb](https://github.com/cyyynthia/pronoundb.org) by cynthia
 
+## Docs
+
+I will write actual explinations of how this works later, but for now an openapi specification can be found at /openapi.json and a Swagger UI page can be found at /docs.
+
 ## Legal stuff
 
 

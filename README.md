@@ -11,8 +11,8 @@ License: [Non-Profit Open Software License version 3.0](https://spdx.org/license
 
 ### PronounDB
 
-Source code link: https://github.com/cyyynthia/pronoundb.org
-License: [BSD 3-Clause "New" or "Revised" License](https://spdx.org/licenses/BSD-3-Clause.html)
+Source code link: https://github.com/cyyynthia/pronoundb.org <br>
+License: [BSD 3-Clause "New" or "Revised" License](https://spdx.org/licenses/BSD-3-Clause.html) <br>
 Copyright: 2020-2022 Cynthia K. Rey, All rights reserved.
 
 No code from the original PronounDB was used in the making of PronounAPI.

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>PronounAPI discord login</title>
+        <script async="true">
+            const params = new URLSearchParams(window.location.search);
+            const code = params.get("code");
+            fetch(`${window.location.protocol}//${window.location.host}/api/v1/callback/discord?${params.toString()}`, {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json"
+                }
+            }).then(res => res.json()).then(res => {
+                if (res.error) {
+                    document.body.innerHTML = `<h1>Error</h1><p>${res.message}</p>`;
+                } else {
+                    window.sessionStorage.setItem("proofToken", res.token);
+                    fetch(`${window.location.protocol}//${window.location.host}/api/v1/users/login`, {
+                        method: "POST",
+                        headers: {
+                            "Accept": "application/json",
+                            "Authorization": `Bearer ${res.token}`,
+                            "Content-Type": "application/json"
+                        }
+                    }).then(res => res.json()).then(res => {
+                        if (res.error) {
+                            document.body.innerHTML = `<h1>Error</h1><p>${res.message}</p>`;
+                        } else {
+                            window.sessionStorage.setItem("token", res.token);
+                            window.location.href = "/user.html";
+                        }
+                    })
+                }
+            });
+        </script>
+    </head>
+    <body>
+        Please wait...
+    </body>
+</html>

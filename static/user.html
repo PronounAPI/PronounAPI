@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>PronounAPI</title>
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+        <script>
+            async function loadDropdown(id) {
+                const pronounsPromise = fetch(`${window.location.protocol}//${window.location.host}/api/v1/pronouns`, {
+                    headers: {
+                        Authorization: window.sessionStorage.getItem("token")
+                    }
+                }).then(response => response.json()).then(data => {
+                    for (const pronoun of data) {
+                        $(id).append(`<option value="${pronoun.id}">${pronoun.pronoun}</li>`);
+                    }
+                    const parsedJwt = JSON.parse(atob(window.sessionStorage.getItem("proofToken").split(".")[1]));
+                    const userPromise = fetch(
+                        `${window.location.protocol}//${window.location.host}/api/v1/lookup?platform=${parsedJwt.platform}&id=${parsedJwt.sub}`
+                    ).then(response => response.json()).then(data => {
+                        $(`${id} option[value='${data.preferredPronoun.id}']`).attr('selected', '');
+                    })
+                });
+            }
+            $(() => {
+                loadDropdown('#preferredPronoun')
+            })
+        </script>
+    </head>
+    <body>
+        <h1>PronounAPI</h1>
+        To modify your settings, modify any of the below options and then press save.
+        <br><br>
+        <form>
+            <label for="preferredPronoun">Preferred pronoun</label>
+            <select name="preferredPronoun" id="preferredPronoun" />
+        </form>
+    </body>
+</html>

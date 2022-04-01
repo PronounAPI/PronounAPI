@@ -7,6 +7,7 @@ import * as config from './config'
 import { RouteManager } from '@tyman/modulo';
 import cors from 'cors';
 import { randomBytes } from 'crypto';
+import express from 'express';
 
 export interface PronounType {
     id: string;
@@ -81,19 +82,19 @@ export const HMACToken = randomBytes(512);
                         id: {
                             type: 'string',
                             description: 'The ID of this pronoun. It is representative of the pronoun if it is a default pronoun, otherwise it is randomly generated.',
-                            example: 'itIts'
+                            example: 'theyHe'
                         
                         },
                         pronoundb: {
                             type: 'string',
                             nullable: true,
                             description: 'The pronoundb ID for this pronoun, or null if there is no corrosponding pronoundb form.',
-                            example: 'ii'
+                            example: 'th'
                         },
                         pronoun: {
                             type: 'string',
                             description: 'The pronoun\'s nice name',
-                            example: 'it/its'
+                            example: 'they/he'
                         },
                         subject: {
                             type: 'string',
@@ -124,8 +125,9 @@ export const HMACToken = randomBytes(512);
                             type: 'array',
                             description: 'An array of other pronoun IDs that this pronoun contains (for pronouns like he/she or they/it)',
                             items: {
-                                "$ref": "#/components/schemas/Pronoun"
-                            }
+                                "$ref": "#/components/schemas/Pronoun",
+                            },
+                            example: ['theyThem', 'heHim']
                         }
                     }
                 },
@@ -213,6 +215,7 @@ export const HMACToken = randomBytes(512);
         },
         paths: {}
     }, [cors()])
+    routeManager.app.use(express.static(path.join(__dirname, '..', 'static')))
     await routeManager.loadRoutes()
     await routeManager.serve(3000)
 })()

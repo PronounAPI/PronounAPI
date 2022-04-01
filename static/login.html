@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>PronounAPI login</title>
+    </head>
+    <body>
+        <h1>Platforms</h1>
+        <ul>
+            <li>
+                <h3>Discord</h3>
+                To log in with discord, click <a href="https://discord.com/api/oauth2/authorize?client_id=953506592442167297&redirect_uri=https%3A%2F%2Fpdb.froggie.cc%2Fcallbacks%2Fdiscord.html&response_type=code&scope=identify">this link</a>, and then click authorize to allow pronounapi to fetch your discord account.
+            </li>
+            <li>
+                <h3>Minecraft</h3>
+                To log in with minecraft, open minecraft and then join the server <code>srv.mc-oauth.net</code>. This will then give you a 6 digit code, which you then need to enter into the box below and press submit.
+                <form method="get" action="/callbacks/minecraft.html">
+                    <input type="text" name="code" placeholder="Enter minecraft code here">
+                    <input type="submit" value="Submit">
+                </form>
+            </li>
+        </ul>
+    </body>
+</html>

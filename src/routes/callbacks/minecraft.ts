@@ -89,12 +89,21 @@ export default class MinecraftCallbackRoute extends Route {
             })
             return
         }
-        const response = await got.get('https://mc-oauth.net/api/api?token', {
-            headers: {
-                token: req.query.code as string
+        let response: McOauthResponse
+        try {
+            response = await got.get('https://mc-oauth.net/api/api?token', {
+                headers: {
+                    token: req.query.code as string
+                }
+            }).json<McOauthResponse>()
+            if (response.status === 'fail') {
+                res.status(500).send({
+                    error: 5,
+                    message: 'Mc-oauth returned an error, is the code valid?'
+                })
+                return
             }
-        }).json<McOauthResponse>()
-        if (response.status === 'fail') {
+        } catch {
             res.status(500).send({
                 error: 5,
                 message: 'Mc-oauth returned an error, is the code valid?'

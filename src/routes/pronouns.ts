@@ -6,11 +6,45 @@ import { jwtVerify } from "jose";
 import { User } from "../models/User";
 import { Pronoun } from "../models/Pronoun";
 import { HMACToken } from '../index';
+import { Op } from "sequelize";
+import * as jose from 'jose';
 
 @RouteOptions({
     path: '/api/v1/pronouns',
     middleware: [Middleware.Json],
     spec: {
+        get: {
+            description: 'Fetch pronouns, will include the user\'s custom pronouns if an authorization header is provided',
+            security: [{}, {
+                User: []
+            }],
+            responses: {
+                '200': {
+                    description: 'A successful pronoun response',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                type: 'array',
+                                items: {
+                                    $ref: '#/components/schemas/Pronoun'
+                                }
+                            }
+                        }
+                    }
+                },
+                '401': {
+                    description: 'Unauthorized',
+                    content: {
+                        'application/json': {
+                            schema: {
+                                $ref: '#/components/schemas/Unauthorized'
+                            }
+                        }
+                    }
+                }
+            },
+            tags: ['Pronouns']
+        },
         post: {
             description: 'Create a pronoun',
             requestBody: {
@@ -171,6 +205,44 @@ export default class PronounsRoute extends Route {
         points: 3,
         duration: 10
     });
+
+    async get(req: Request, res: Response) {
+        let pronouns: Pronoun[];
+        if (req.headers.authorization) {
+            const parsedJwt = await jose.jwtVerify(req.headers.authorization.replace('Bearer ', ''), HMACToken).catch(() => null);
+            if (!parsedJwt) {
+                return res.status(401).json({
+                    error: 401,
+                    message: 'Invalid authorization token'
+                });
+            }
+            pronouns = await Pronoun.findAll({
+                where: {
+                    creatorId: {
+                        [Op.or]: [Number(parsedJwt.payload.sub), null]
+                    }
+                }
+            });
+        } else {
+            pronouns = await Pronoun.findAll({
+                where: {
+                    creatorId: null
+                }
+            });
+        }
+        res.status(200).json(pronouns.map(p => ({
+            id: p.id,
+            creatorId: p.creatorId,
+            pronoundb: p.pronoundb,
+            pronoun: p.pronoun,
+            subject: p.subject,
+            object: p.object,
+            possessiveDeterminer: p.possessiveDeterminer,
+            possessivePronoun: p.possessivePronoun,
+            reflexive: p.reflexive,
+            subpronouns: p.subpronouns,
+        })));
+    }
 
     async post(req: Request, res: Response) {
         try {
